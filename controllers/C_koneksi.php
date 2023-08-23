@@ -6,7 +6,7 @@
 class C_koneksi{
 
     // ini ada fungsi atau method yang bernama connection dan fungsi harus ada didalam kelas 
-    public function connection(){
+    public function conn(){
         // untuk isinya kita lanjutkan hari rabu 
 
         // membuat fungsi untuk terkoneksi kedalam database project_xiirpl3
@@ -16,7 +16,8 @@ class C_koneksi{
         if (!$conn) {
             die("Koneksi gagal dibuat : ".mysqli_connect_error());
         }else{
-            echo "koneksi berhasil dibuat";
+            //untuk mengembalikan nilai koneksi
+            return $conn;
         }
 
     }
