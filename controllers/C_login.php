@@ -31,8 +31,58 @@
         }
 
         
-        public function login(){
+        public function login($email, $pass){
 
+            $conn = new C_koneksi();
+
+            //untuk mengecek tombol login sudah di tekan atau di klik oleh user 
+            if (isset($_POST['login'])) {
+                
+                //untuk menampilkan semua data dari tabel user berdasaran email yang diinputkan oleh user
+                $sql = "SELECT * FROM user WHERE email = '$email'";
+
+                $query = mysqli_query($conn->conn(), $sql);
+
+                //mengubah data dari bertipe data objek menjadi array asosiatif
+                $data = mysqli_fetch_assoc($query);
+
+                //untuk mengecek apakah ada data dari hasil query
+                if ($data) {
+                    
+                    //untuk mengecek atau membandingkan inputan password dari user dengan password dari tabel user
+                    if (password_verify($pass,$data['password'])) {
+                        
+                        //unutk mengecek apakah posisi login sebagai admin, atau mengecek apakah role user itu sebagai admin atau bukan
+                        if ($data['role'] == 'admin') {
+                            
+                            //untuk menampung data dari query database yang akan digunakan ketika halaman admin/user setelah proses logi berhasi;
+                            $_SESSION['data'] = $data;
+                            $_SESSION['role'] = $data['role'];
+
+                            //memindahkan halaman ke halaman home
+                            header("Location: ../views/home.php");
+                            
+                            //untuk menghentikan proses dibawahnya
+                            exit;
+                        
+                            //unutk mengecek apakah posisi login sebagai user, atau mengecek apakah role user itu sebagai admin atau bukan
+                        }elseif ($data['role'] == 'user') {
+                            
+                            $_SESSION['data'] = $data;
+                            $_SESSION['role'] = $data['role'];
+
+                            header("Location: ../views/home_user.php");
+                            exit;
+                        }
+
+                    }else{
+                        echo "cek password";
+                    }
+
+                }else {
+                    echo "cek username dan password";
+                }
+            }
         }
 
         

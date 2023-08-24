@@ -16,7 +16,12 @@ $login = new C_login();
         $login->register($id=0, $nama, $email, $pass, $role);
     }
     elseif ($_GET['aksi'] == 'login') {
-        # code...
+        
+        $email = $_POST['email'];
+        $pass = $_POST['password'];
+
+        $login->login($email, $pass);
+
     }
 
 
